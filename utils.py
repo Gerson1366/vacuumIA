@@ -331,12 +331,6 @@ def leaky_relu_derivative(value, alpha=0.01):
 
 def relu(x):
     return max(0, x)
-    
-def relu_derivative(value):
-    if value > 0:
-        return 1
-    else:
-        return 0
         
 def step(x):
     """Return activation value of x with sign function"""

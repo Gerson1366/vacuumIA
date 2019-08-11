@@ -727,18 +727,18 @@ class VacuumEnvironment(XYEnvironment):
         if action != 'NoOp':
             agent.performance -= 1
 
+"Inicia contador de movimentos realizados ateh ficar limpo"
 move = 0
 class TrivialVacuumEnvironment(Environment):
-    """This environment has two locations, A and B. Each can be Dirty
-    or Clean. The agent perceives its location and the location's
-    status. This serves as an example of how to implement a simple
-    Environment."""
     def __init__(self):
         global move
+        "Sempre reseta contador quando chamar variavel"
         move = 0
         super().__init__()
-        self.status = {loc_A: random.choice(['Clean', 'Dirty']),
-                       loc_B: random.choice(['Clean', 'Dirty'])}
+    "seta os status da localizacao A e B"
+    def setPlaces(self,statusA,statusB):
+        self.status = {loc_A: statusA,
+                       loc_B: statusB}
 
     def thing_classes(self):
         return [Wall, Dirt, ReflexVacuumAgent, RandomVacuumAgent,
@@ -751,6 +751,7 @@ class TrivialVacuumEnvironment(Environment):
     def execute_action(self, agent, action):
         """Change agent's location and/or location's status; track performance.
         Score 10 for each dirt cleaned; -1 for each move."""
+        "Se algum espaco ainda ta sujo, conta movimento total ateh ficar limpo"
         if self.status[loc_A]=="Dirty" or self.status[loc_B]=="Dirty":
             global move
             move += 1
@@ -765,6 +766,7 @@ class TrivialVacuumEnvironment(Environment):
                 agent.performance += 10
             self.status[agent.location] = 'Clean'
             
+    "Retorna quantos movimentos levou ateh ficar limpo"
     def return_moves(self):
         return move
 
